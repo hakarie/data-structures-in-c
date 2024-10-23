@@ -1,0 +1,56 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node{
+    int data;
+    struct node *LC;
+    struct node *RC;
+};
+
+struct node *Tree = NULL; 
+
+void insert(int value){
+    struct node *ptr = (struct node*)malloc(sizeof(struct node));
+    ptr->data = value;
+    
+    if(Tree == NULL){
+        Tree = ptr;
+        return;
+    }
+    struct node *temp = Tree;
+    
+    while(temp != NULL){
+        if(value < temp->data){
+            if(temp->LC == NULL){
+                temp->LC = ptr;break;
+            }
+            temp = temp->LC;
+        }
+        
+        if(value > temp->data){
+            if(temp->RC == NULL){
+                temp->RC = ptr;break;
+            }
+            temp = temp->RC;
+        }
+    }
+}
+
+void printInOrder(struct node* root){
+    if(root == NULL)
+        return;
+    printInOrder(root->LC);
+    printf("%d ", root->data);
+    printInOrder(root->RC);
+}
+int main() {
+    int a[] = {25,6,12,78,45,32,50,17};
+    int n = sizeof(a)/sizeof(a[0]);
+    for(int i = 0; i < n; i++){
+        insert(a[i]);
+    }
+    
+    printInOrder(Tree);
+    
+    return 0;
+    
+}
