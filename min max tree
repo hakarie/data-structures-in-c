@@ -1,0 +1,105 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node{
+    int data;
+    struct node *left;
+    struct node *right;
+};
+
+struct node *Tree = NULL;
+
+void insert(int value){
+    struct node *ptr = (struct node*)malloc(sizeof(struct node));
+    ptr->data = value;
+    
+    if(Tree == NULL){
+        Tree = ptr;
+        return;
+    }
+    struct node *temp = Tree;
+    
+    while(temp != NULL){
+        if(value < temp->data){
+            if(temp->left == NULL){
+                temp->left = ptr;break;
+            }
+            temp = temp->left;
+        }
+        
+        if(value > temp->data){
+            if(temp->right == NULL){
+                temp->right = ptr;break;
+            }
+            temp = temp->right;
+        }
+    }
+}
+
+void printInOrder(struct node* root){
+    if(root == NULL)
+        return;
+    printInOrder(root->left);
+    printf("%d ", root->data);
+    printInOrder(root->right);
+}
+
+void printPreOrder(struct node *root){
+    if(root == NULL){
+        return;
+    }
+
+    printf("%d ",root->data);
+    printPreOrder(root->left);
+    printPreOrder(root->right);
+}
+
+void printPostOrder(struct node *root){
+    if(root == NULL){
+        return;
+    }
+
+    printPostOrder(root->left);
+    printPostOrder(root->right);
+    printf("%d, ", root->data);
+}
+
+int minimumNumber(struct node *root){
+    if(root == NULL){
+        printf("\nTree is empty");
+    }
+    while(root->left != NULL){
+        root = root->left;
+    }
+    return root->data;
+}
+
+int maximumNumber(struct node *root){
+    if(root == NULL){
+        printf("\nTree is empty");
+    }
+    while(root->right != NULL){
+        root = root->right;
+    }
+    return root->data;
+}
+
+int main(){
+    int a[] = {25,6,12,78,45,32,50,17};
+    int n = sizeof(a)/sizeof(a[0]);
+    for(int i = 0; i < n; i++){
+        insert(a[i]);
+    }
+    printf("\nInorder Traversal : ");
+    printInOrder(Tree);
+    
+    printf("\nPreorder Traversal : ");
+    printPreOrder(Tree);
+
+    printf("\nPostorder Traversal : ");
+    printPostOrder(Tree);
+
+    printf("\nMinimum number in the tree : %d",minimumNumber(Tree));
+    printf("\nMaximum number in the tree : %d",maximumNumber(Tree));
+    return 0;
+}
