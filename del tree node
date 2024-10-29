@@ -1,0 +1,96 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node{
+    int data;
+    struct node *left;
+    struct node *right;
+};
+
+struct node *Tree = NULL;
+
+void insert(int value){
+    struct node *ptr = (struct node*)malloc(sizeof(struct node));
+    ptr->data = value;
+    
+    if(Tree == NULL){
+        Tree = ptr;
+        return;
+    }
+    struct node *temp = Tree;
+    
+    while(temp != NULL){
+        if(value < temp->data){
+            if(temp->left == NULL){
+                temp->left = ptr;break;
+            }
+            temp = temp->left;
+        }
+        
+        if(value > temp->data){
+            if(temp->right == NULL){
+                temp->right = ptr;break;
+            }
+            temp = temp->right;
+        }
+    }
+}
+
+void printPreOrder(struct node *root){
+    if(root == NULL){
+        return;
+    }
+
+    printf("%d ",root->data);
+    printPreOrder(root->left);
+    printPreOrder(root->right);
+}
+
+struct node* findPredecessor(int number){
+    struct node *root = Tree->left;
+    while(root != NULL){
+        root = root->right;
+    }
+    return root;
+} 
+
+void deleteNode(struct node* p){
+    struct node *root = Tree;
+    struct node *q = findPredecessor(p->data);
+    while(root->right != p || root->left != p ){
+        ifp->data
+    }
+    if(p->left == NULL && p->right == NULL){
+
+    }
+}
+
+void findNode(int number){
+    struct node *root = Tree;
+    while(root != NULL){
+        if(number < root->data)
+            root = root->left;
+        else if(number > root->data)
+            root = root->right;
+        else{
+            printf("\n%d is present", root->data);
+            deleteNode(root);
+            return;
+        }
+    }
+    printf("\nNumber not found ");
+    return;
+}
+
+int main(){
+    int a[] = {25,6,12,78,45,32,50,17};
+    int n = sizeof(a)/sizeof(a[0]);
+    for(int i = 0; i < n; i++){
+        insert(a[i]);
+    }
+    printf("\nPreorder Traversal : ");
+    printPreOrder(Tree);
+
+    findNode(7);
+    return 0;
+}
